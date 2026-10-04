@@ -16,12 +16,12 @@ class Vmmbox < Formula
 
   on_macos do
     on_arm do
-      url "https://github.com/ericcurtin/vmmbox/releases/download/v0.1.0/vmmbox-aarch64-apple-darwin"
-      sha256 "085cf7de8ac5364dfe4ad2a56ed393ef531fd9f39b1fe40e698766bc54c561df"
+      url "https://github.com/ericcurtin/vmmbox/releases/download/v0.1.1/vmmbox-aarch64-apple-darwin"
+      sha256 "ff00e3b4288b3cc3c884d5dfe4b19a97ea99f942e2daf135109076e66799627d"
     end
     on_intel do
-      url "https://github.com/ericcurtin/vmmbox/releases/download/v0.1.0/vmmbox-x86_64-apple-darwin"
-      sha256 "1be42ebc9856d79ac6b638cf4285c00634ac5da253b1630072fdd1a69d19a7ba"
+      url "https://github.com/ericcurtin/vmmbox/releases/download/v0.1.1/vmmbox-x86_64-apple-darwin"
+      sha256 "6c68d7412b03486b942c8a2edd1650eb1958d1471e194475c39cbac7bdcedcc6"
     end
   end
 
@@ -31,8 +31,8 @@ class Vmmbox < Formula
     depends_on arch: :x86_64
 
     on_intel do
-      url "https://github.com/ericcurtin/vmmbox/releases/download/v0.1.0/vmmbox-x86_64-unknown-linux-musl"
-      sha256 "60ab144b61050f418fd50b12c04eabf878c2b4e4d9ea82ea82fe1cf2ad523918"
+      url "https://github.com/ericcurtin/vmmbox/releases/download/v0.1.1/vmmbox-x86_64-unknown-linux-musl"
+      sha256 "b2ba169af1de544cafcecf0ac44353811bc3359070d76c148bf6adefdaf02df5"
     end
   end
 
