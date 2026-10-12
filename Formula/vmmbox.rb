@@ -7,32 +7,39 @@
 class Vmmbox < Formula
   desc "Accelerated Linux VMs on QEMU that mirror your user and share your home"
   homepage "https://github.com/ericcurtin/vmmbox"
-  license "GPL-2.0-only"
+  license "Apache-2.0"
 
-  # The hypervisor front end. vmmbox itself also needs ssh and curl: macOS ships
-  # both, and Linux machines have them.
-  depends_on "qemu"
+  # vmmbox needs ssh and curl: macOS ships both, and Linux machines have them.
+  # On macOS it needs nothing else from Homebrew: it downloads its own QEMU,
+  # built with the virtio-fs support Homebrew's lacks, the first time it is used
+  # (`vmmbox setup` does it sooner). A formula cannot do that itself: Homebrew's
+  # sandbox does not let post_install write to the user's home.
   uses_from_macos "curl"
 
   on_macos do
+    # Only Apple silicon is supported on macOS; this gives Intel Macs a clear
+    # Homebrew error instead of a missing download.
+    depends_on arch: :arm64
+
     on_arm do
-      url "https://github.com/ericcurtin/vmmbox/releases/download/v0.1.1/vmmbox-aarch64-apple-darwin"
-      sha256 "ff00e3b4288b3cc3c884d5dfe4b19a97ea99f942e2daf135109076e66799627d"
-    end
-    on_intel do
-      url "https://github.com/ericcurtin/vmmbox/releases/download/v0.1.1/vmmbox-x86_64-apple-darwin"
-      sha256 "6c68d7412b03486b942c8a2edd1650eb1958d1471e194475c39cbac7bdcedcc6"
+      url "https://github.com/ericcurtin/vmmbox/releases/download/v0.1.39/vmmbox-aarch64-apple-darwin"
+      sha256 "f9469c71f3c7f14fc325cef263530ac5d0467a8cfeba2332fe4feb9009d265e8"
     end
   end
 
   on_linux do
-    # Only x86_64 is supported on Linux; this gives other architectures a clear
-    # Homebrew error instead of a missing download.
-    depends_on arch: :x86_64
+    # On Linux QEMU and the virtio-fs server come from Homebrew or the system.
+    depends_on "qemu"
+    depends_on "virtiofsd"
 
+    # Homebrew on Linux runs on x86_64 and arm64 only, and both have a build.
     on_intel do
-      url "https://github.com/ericcurtin/vmmbox/releases/download/v0.1.1/vmmbox-x86_64-unknown-linux-musl"
-      sha256 "b2ba169af1de544cafcecf0ac44353811bc3359070d76c148bf6adefdaf02df5"
+      url "https://github.com/ericcurtin/vmmbox/releases/download/v0.1.39/vmmbox-x86_64-unknown-linux-musl"
+      sha256 "1c08d8081f760ed6c3103477328fb3a21e56b57a50516fa86c5ba855143874cd"
+    end
+    on_arm do
+      url "https://github.com/ericcurtin/vmmbox/releases/download/v0.1.39/vmmbox-aarch64-unknown-linux-musl"
+      sha256 "bb9c670eebf59a57cbd3c9819d942958c6eee637066fba14a919bb0e4338a7bb"
     end
   end
 
@@ -44,11 +51,14 @@ class Vmmbox < Formula
   def caveats
     gui = if OS.mac?
       <<~EOS
-        GUI apps (vmmbox exec ubuntu google-chrome) open as windows on your desktop
+        GUI apps (vmmbox run ubuntu google-chrome) open as windows on your desktop
         once a Wayland compositor and waypipe are installed. They come from a
         third-party tap, so Homebrew needs you to ask for them explicitly:
 
           brew install J-x-Z/tap/cocoa-way J-x-Z/tap/waypipe-darwin
+
+        The first time you start a VM, vmmbox downloads its own QEMU (about 11 MB)
+        into ~/.local/share/vmmbox; `vmmbox setup` does that now.
       EOS
     else
       <<~EOS
@@ -61,10 +71,9 @@ class Vmmbox < Formula
       EOS
     end
     <<~EOS
-      Start a VM and get a shell in it:
+      Get a shell in a VM (it is pulled, created and started if need be):
 
-        vmmbox start ubuntu
-        vmmbox exec ubuntu bash
+        vmmbox run ubuntu bash
 
       #{gui}
     EOS
