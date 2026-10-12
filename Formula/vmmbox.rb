@@ -22,8 +22,8 @@ class Vmmbox < Formula
     depends_on arch: :arm64
 
     on_arm do
-      url "https://github.com/ericcurtin/vmmbox/releases/download/v0.1.39/vmmbox-aarch64-apple-darwin"
-      sha256 "f9469c71f3c7f14fc325cef263530ac5d0467a8cfeba2332fe4feb9009d265e8"
+      url "https://github.com/ericcurtin/vmmbox/releases/download/v0.1.40/vmmbox-aarch64-apple-darwin"
+      sha256 "eba42b7e75e0c5e37dd5547d1111dbbe07b3d92af2d98023814b062ca406f96e"
     end
   end
 
@@ -34,12 +34,12 @@ class Vmmbox < Formula
 
     # Homebrew on Linux runs on x86_64 and arm64 only, and both have a build.
     on_intel do
-      url "https://github.com/ericcurtin/vmmbox/releases/download/v0.1.39/vmmbox-x86_64-unknown-linux-musl"
-      sha256 "1c08d8081f760ed6c3103477328fb3a21e56b57a50516fa86c5ba855143874cd"
+      url "https://github.com/ericcurtin/vmmbox/releases/download/v0.1.40/vmmbox-x86_64-unknown-linux-musl"
+      sha256 "c0ca53877dca1aa1880127bdba3e1624faab9f0113b77a5501a5e42f235aefbe"
     end
     on_arm do
-      url "https://github.com/ericcurtin/vmmbox/releases/download/v0.1.39/vmmbox-aarch64-unknown-linux-musl"
-      sha256 "bb9c670eebf59a57cbd3c9819d942958c6eee637066fba14a919bb0e4338a7bb"
+      url "https://github.com/ericcurtin/vmmbox/releases/download/v0.1.40/vmmbox-aarch64-unknown-linux-musl"
+      sha256 "fbb7718295a1516e1f36a8b0a60ace0a76ca1468d26605a79a04e2517e7de2e7"
     end
   end
 
